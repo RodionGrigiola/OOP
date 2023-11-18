@@ -123,7 +123,7 @@ public:
     }
 
     /***********
-    * Setters *
+    * Fillers *
     ***********/
 
     void Fill(int x, int y, int z, T value){
