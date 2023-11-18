@@ -122,6 +122,10 @@ public:
         }
     }
 
+    /***********
+    * Setters *
+    ***********/
+
     void Fill(int x, int y, int z, T value){
         this->x = x;
         this->y = y;
