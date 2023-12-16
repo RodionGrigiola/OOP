@@ -51,7 +51,7 @@ build cmake_object_order_depends_target_Lab_1: phony || CMakeFiles/Lab_1.dir
 
 build CMakeFiles/Lab_1.dir/main.cpp.o: CXX_COMPILER__Lab_1_unscanned_Debug /Users/roro/Documents/University/Applied$ Informatics$ and$ Math/3rd$ year/5$ семестр/ООП/Labs/Lab_1/main.cpp || cmake_object_order_depends_target_Lab_1
   DEP_FILE = CMakeFiles/Lab_1.dir/main.cpp.o.d
-  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk -fcolor-diagnostics
+  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk -fcolor-diagnostics
   OBJECT_DIR = CMakeFiles/Lab_1.dir
   OBJECT_FILE_DIR = CMakeFiles/Lab_1.dir
   TARGET_COMPILE_PDB = CMakeFiles/Lab_1.dir/
@@ -66,7 +66,7 @@ build CMakeFiles/Lab_1.dir/main.cpp.o: CXX_COMPILER__Lab_1_unscanned_Debug /User
 # Link the executable Lab_1
 
 build Lab_1: CXX_EXECUTABLE_LINKER__Lab_1_Debug CMakeFiles/Lab_1.dir/main.cpp.o
-  FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk
+  FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk
   OBJECT_DIR = CMakeFiles/Lab_1.dir
   POST_BUILD = :
   PRE_LINK = :

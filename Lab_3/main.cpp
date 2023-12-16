@@ -2,7 +2,7 @@
 #include "Array3D.cpp"
 
 int main() {
-    int x = 4, y = 4, z = 4;
+    int x = 3, y = 3, z = 3;
     Array3D<int> array3D(x, y, z);
 
     int index = 1;

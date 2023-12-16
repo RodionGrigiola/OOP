@@ -1,0 +1,23 @@
+# ninja log v5
+5	929	1702729658228482764	CMakeFiles/Lab6.dir/src/WindowsControls.cpp.o	c59f1e104ee17460
+926	1349	1702729658655859268	CMakeFiles/Lab6.dir/src/WindowsUIFactory.cpp.o	d807136b1bc78af2
+5	928	1702729658228529471	CMakeFiles/Lab6.dir/src/MacOSUIFactory.cpp.o	a99fa997e1c0003e
+4	1555	1702729609103139788	CMakeFiles/Lab6.dir/src/Controls.cpp.o	24d040515c589d0b
+3	927	1702729658230962195	CMakeFiles/Lab6.dir/src/LinuxControls.cpp.o	bfcea3ed8ad25fd9
+3	1033	1702729658339915200	CMakeFiles/Lab6.dir/main.cpp.o	5843fe450cc7b070
+3	938	1702729658244896015	CMakeFiles/Lab6.dir/src/LinuxUIFactory.cpp.o	2f4276cc685545d0
+1349	1454	1702729658761557197	Lab6	aad4e8ed87f8e60d
+1555	2387	1702729609938348632	CMakeFiles/Lab6.dir/src/UIFactory.cpp.o	7eec8bae6b12800b
+4	926	1702729658228529388	CMakeFiles/Lab6.dir/src/MacOSControls.cpp.o	5e6ba3253a3af990
+3	871	1702729525039918904	CMakeFiles/Lab6.dir/src/Control.cpp.o	9a307cb1ebc5a766
+1	77	1702731084071135555	build.ninja	357879cd86b49bea
+3	1022	1702731085098101070	CMakeFiles/Lab6.dir/src/Controls.cpp.o	24d040515c589d0b
+4	1024	1702731085098134070	CMakeFiles/Lab6.dir/src/LinuxControls.cpp.o	bfcea3ed8ad25fd9
+5	1026	1702731085098101195	CMakeFiles/Lab6.dir/src/MacOSFactory.cpp.o	9d247d549d7b7661
+5	1027	1702731085103822241	CMakeFiles/Lab6.dir/src/MacOSControls.cpp.o	5e6ba3253a3af990
+4	1229	1702731085309102979	CMakeFiles/Lab6.dir/src/LinuxFactory.cpp.o	fa5437e1233257a8
+3	1335	1702731085414495518	CMakeFiles/Lab6.dir/main.cpp.o	5843fe450cc7b070
+1026	1684	1702731085766175810	CMakeFiles/Lab6.dir/src/WindowsFactory.cpp.o	5b82320ee43fcf56
+1024	1700	1702731085782367461	CMakeFiles/Lab6.dir/src/WindowsControls.cpp.o	c59f1e104ee17460
+1022	1712	1702731085794096007	CMakeFiles/Lab6.dir/src/UIFactory.cpp.o	7eec8bae6b12800b
+1712	1822	1702731085904083482	Lab6	8cc64339ba90df91
