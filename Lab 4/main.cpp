@@ -15,7 +15,7 @@ public:
     KeyPressAction(std::string key) : key(key) {}
 
     void run() override {
-        std::cout << "Pressed key: " << key << std::endl;
+        std::cout << key + " is pressed" << std::endl;
     }
 
     void undo() override {
@@ -29,17 +29,17 @@ public:
     std::string key;
 };
 
-class MultipleKeysAction : public KeyboardAction {
+class MultipleKeysPressAction : public KeyboardAction {
 
 public:
-    MultipleKeysAction(std::vector<std::string> keys) : keys(keys) {}
+    MultipleKeysPressAction(std::vector<std::string> keys) : keys(keys) {}
 
     void run() override {
-        std::cout << "Pressed combination: ";
+        std::cout << "Shortcut ";
         for (const auto& k : keys) {
             std::cout << k << " + ";
         }
-        std::cout << "\b\b  " << std::endl;
+        std::cout << "\b\bis pressed" << std::endl;
     }
 
     void undo() override {
@@ -62,26 +62,27 @@ public:
     std::vector<std::string> keys;
 };
 
-class VirtualKeyboard {
+class Keyboard {
 private:
-    std::vector<KeyboardAction*> history;
-    std::unordered_map<std::string, KeyboardAction*> actions;
+    std::vector<KeyboardAction *> history;
+    std::unordered_map<std::string, KeyboardAction *> actions;
 
 public:
     void pressKey(std::string key) {
         if (actions.find(key) != actions.end()) {
             actions[key]->run();
         } else {
-            KeyPressAction* action = new KeyPressAction(key);
+            KeyPressAction *action = new KeyPressAction(key);
             actions[key] = action;
             actions[key]->run();
         }
         history.push_back(actions[key]);
+        std::cout << "Console>>> " << showHistory() << std::endl;
     }
 
     void pressCombo(std::vector<std::string> keys) {
         std::string comboKey;
-        for (const auto& k : keys) {
+        for (const auto &k: keys) {
             comboKey += k + " + ";
         }
         comboKey.erase(comboKey.size() - 3); // Removing the last " + "
@@ -89,116 +90,99 @@ public:
         if (actions.find(comboKey) != actions.end()) {
             actions[comboKey]->run();
         } else {
-            MultipleKeysAction* action = new MultipleKeysAction(keys);
+            MultipleKeysPressAction *action = new MultipleKeysPressAction(keys);
             actions[comboKey] = action;
             actions[comboKey]->run();
         }
         history.push_back(actions[comboKey]);
+//        std::cout << "Console>>> " << showHistory() << std::endl;
     }
 
     void undo() {
         if (!history.empty()) {
-            KeyboardAction* action = history.back();
+            KeyboardAction *action = history.back();
             action->undo();
             history.pop_back();
+
+            std::cout << "Console>>> " << showHistory() << std::endl;
+        } else {
+            std::cout << "History is empty" << std::endl;
         }
     }
 
-    void showHistory() {
-        for (const auto& element : history) {
-            std::cout << element->prepareToShow() << std::endl;
+    std::string showHistory() {
+        std::string tmp;
+        for (auto element: history) {
+            tmp += element->prepareToShow();
         }
+        return tmp;
     }
 
     void renameKey(std::string oldValue, std::string newValue) {
         bool isExists = false;
-        std::cout << "Renaming " + oldValue + " to " + newValue << std::endl;
-        for (const auto& element : history) {
-            if (element->prepareToShow() == oldValue) {
-                KeyPressAction* action = dynamic_cast<KeyPressAction*>(element);
-                if (action) {
-                    action->key = newValue;
-                    isExists = true;
-                }
-            }
-        }
-        for (auto& pair : actions) {
-            if (pair.first == oldValue) {
-                actions[newValue] = pair.second;
-                actions.erase(oldValue);
+        for (auto &entry: actions) {
+            if (oldValue == entry.second->prepareToShow()) {
+                std::cout << "Key " << entry.second->prepareToShow();
+                delete entry.second;
+                actions[oldValue] = new KeyPressAction(newValue);
                 isExists = true;
-                break;
+                std::cout << " was renamed to " << actions[oldValue]->prepareToShow() << std::endl;
             }
         }
         if (!isExists) {
-            std::cout << "The key doesn't exist!" << std::endl;
+            std::cout << "Such key doesn't exist" << std::endl;
         }
     }
 
     void renameMultipleKeysCombination(std::string oldValue, std::string newValue) {
         bool isExists = false;
-        std::cout << "Renaming combo " + oldValue + " to " + newValue << std::endl;
-        std::vector<std::string> newCombo;
-        size_t pos = 0;
-        std::string delimiter = " + ";
-        while ((pos = newValue.find(delimiter)) != std::string::npos) {
-            std::string token = newValue.substr(0, pos);
-            newCombo.push_back(token);
-            newValue.erase(0, pos + delimiter.length());
-        }
-        newCombo.push_back(newValue);
-
-        for (const auto& element : history) {
-            if (element->prepareToShow() == oldValue) {
-                MultipleKeysAction* action = dynamic_cast<MultipleKeysAction*>(element);
-                if (action) {
-                    action->keys = newCombo;
-                    isExists = true;
-                }
-            }
-        }
-        for (auto& pair : actions) {
-            if (pair.first == oldValue) {
-                actions[newValue] = pair.second;
-                actions.erase(oldValue);
+        for (auto &entry: actions) {
+            if (oldValue == entry.second->prepareToShow()) {
+                std::cout << "Shortcut  " << entry.second->prepareToShow();
+                delete entry.second;
+                actions[oldValue] = new MultipleKeysPressAction({newValue});
                 isExists = true;
-                break;
+                std::cout << " is renamed to " << actions[oldValue]->prepareToShow() << std::endl;
             }
         }
         if (!isExists) {
-            std::cout << "The combination doesn't exist!" << std::endl;
+            std::cout << "Such key doesn't exist" << std::endl;
         }
     }
 };
 
 class Workflow {
-public:
-    static void showWorkflow(VirtualKeyboard& keyboard) {
-        keyboard.pressKey("F");
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        keyboard.pressKey("W");
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        keyboard.pressCombo({"Ctrl", "Esc"});
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        keyboard.pressCombo({"Shift", "Alt"});
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        std::cout << "-----History----- " << std::endl;
-        keyboard.showHistory();
-        std::cout << "------End of History------- " << std::endl;
-        keyboard.undo();
-        std::cout << "-----History-----" << std::endl;
-        keyboard.showHistory();
-        std::cout << "------End of History------- " << std::endl;
-    }
+    public:
+        static void showWorkflow(Keyboard &keyboard) {
+            keyboard.pressKey("H");
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+            keyboard.pressKey("E");
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+            keyboard.pressKey("L");
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+            keyboard.pressKey("L");
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+            keyboard.pressKey("O");
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+            keyboard.undo();
+            keyboard.undo();
+            keyboard.undo();
+            keyboard.undo();
+            keyboard.undo();
+
+            keyboard.pressCombo({"Ctrl", "Esc"});
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+            keyboard.undo();
+            std::cout << "------------------------------" << std::endl;
+        }
 };
 
 int main() {
-    VirtualKeyboard keyboard;
+    Keyboard keyboard;
     Workflow::showWorkflow(keyboard);
-    keyboard.renameKey("Q", "E");
+    keyboard.renameKey("H", "C");
     Workflow::showWorkflow(keyboard);
-    keyboard.renameMultipleKeysCombination("Ctrl + A", "Ctrl + D");
+    keyboard.renameMultipleKeysCombination("Ctrl + Esc", "Ctrl + D");
     Workflow::showWorkflow(keyboard);
-
     return 0;
 }
